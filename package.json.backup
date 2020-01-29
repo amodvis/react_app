@@ -1,0 +1,104 @@
+{
+  "name": "@icedesign/commodity-management-scaffold",
+  "version": "1.0.0",
+  "description": "该模板适用于商家类管理后台，布局方式采用左侧固定，右侧自适应方式，适合大量数据展示和界面操作",
+  "author": "ice-admin@alibaba-inc.com",
+  "files": [
+    "src/",
+    "build/",
+    "public/",
+    "tests/",
+    "_gitignore",
+    ".editorconfig",
+    ".eslintignore",
+    ".eslintrc"
+  ],
+  "dependencies": {
+    "@alifd/next": "^1.x",
+    "@antv/data-set": "^0.9.5",
+    "@hk01-digital/hk01-react-components": "0.2.2-beta.5",
+    "@icedesign/container": "^1.x",
+    "@icedesign/form-binder": "^1.x",
+    "@icedesign/foundation-symbol": "^1.x",
+    "@icedesign/img": "^1.x",
+    "@icedesign/layout": "^1.x",
+    "@icedesign/theme": "^1.x",
+    "antd-mobile": "^2.2.14",
+    "bizcharts": "^3.2.2",
+    "enquire-js": "^0.1.2",
+    "lodash.clonedeep": "^4.5.0",
+    "moment": "^2.24.0",
+    "nprogress": "^0.2.0",
+    "prop-types": "^15.5.8",
+    "react": "^16.2.0",
+    "react-dom": "^16.4.1",
+    "react-router-dom": "^4.2.2",
+    "svgo": "^1.3.0"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.com",
+    "access": "public"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.3",
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "ice-scripts": "^1.6.0"
+  },
+  "scripts": {
+    "start": "ice dev",
+    "build": "ice build",
+    "build:all": "ice build && ice build library:true && npm run move:dist",
+    "build:all_debug": "ice build --debug && ice build library:true --debug && npm run move:dist",
+    "build:all_local": "(if [ -f ./src/.env.json ]; then  cp ./src/.env.json ./src/.env.json.temp; fi)  && cat ./src/.env.local.json > ./src/.env.json && npm run build:all_debug && (if [ -f ./src/.env.json ];then cat ./src/.env.json.temp > ./src/.env.json;fi)",
+    "build:all_dev": "echo ''> public/index.html && echo '{}' > ./src/.env.json && cat ./src/router_config.json.publish > ./src/router_config.json && npm run build:all_debug",
+    "build:lib": "ice build library:true",
+    "build:staging": "MY_VERSION_DATE=`date +%F | sed 's/-//g'``date +%T | sed 's/://g'`&& echo $MY_VERSION_DATE > public/version.txt && echo ''> public/index.html && cat ./.env.json.stg > ./src/.env.json && cat ./src/router_config.json.publish > ./src/router_config.json && npm run build:all",
+    "build:development": "MY_VERSION_DATE=`date +%F | sed 's/-//g'``date +%T | sed 's/://g'`&& echo $MY_VERSION_DATE > public/version.txt && echo ''> public/index.html && cat ./.env.json.stg > ./src/.env.json && cat ./src/router_config.json.publish > ./src/router_config.json && npm run build:all",
+    "build:production": "MY_VERSION_DATE=`date +%F | sed 's/-//g'``date +%T | sed 's/://g'`&& echo $MY_VERSION_DATE > public/version.txt && echo ''> public/index.html && cat ./.env.json.prod > ./src/.env.json && cat ./src/router_config.json.publish > ./src/router_config.json && npm run build:all",
+    "move:dist": "rm -rf ./dist && mkdir ./dist && cp -r ./public ./dist/ && mv ./build ./dist/",
+    "tool:sync_router": "./tools/sync_router.sh --vendor_id --app_name  > ./src/router_config.json",
+    "tool:win_router:m_p:dd01fun": "curl -k \"https://amodvis-api.dd01.fun/api/tool/get_app_router_config?export_app_name=test01&export_vendor_id=1\"  -H \"Shop-Vendor-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhbW9kdmlzIiwiaWF0IjoxNTY3MDQ5MzIzLCJjbGllbnRfaWQiOiI5ZWUxNzNiNC05NjJjLTRiMmEtYjBhNy04ZmU4OWFjYjRjNDciLCJkYXRhIjp7InZlbmRvcl9pZCI6MSwiYXBwX25hbWUiOiJ0ZXN0MDEifSwic2NvcGVzIjoicm9sZV9hY2Nlc3MiLCJleHAiOjE1OTg1ODUzMjN9.yD_JKQ68-YiC0lOZMQUzKXKfQ2MB5wqDDR1PXM4lo7k\" > ./src/router_config.json",
+    "tool:win_router:m_p:hktester": "curl -k \"https://amodvis-api.hktester.com/api/tool/get_app_router_config?is_for_template=1&export_app_name=zero_1_member&export_vendor_id=1\"  -H \"Shop-Vendor-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhbW9kdmlzIiwiaWF0IjoxNTY2NDU1NTcyLCJjbGllbnRfaWQiOiI5ZWUxNzNiNC05NjJjLTRiMmEtYjBhNy04ZmU4OWFjYjRjNDciLCJkYXRhIjp7InZlbmRvcl9pZCI6IjEiLCJhcHBfbmFtZSI6InRlc3RfYXBwIn0sInNjb3BlcyI6InJvbGVfYWNjZXNzIiwiZXhwIjoxNTk3OTkxNTcyfQ.cYtZIzpxNJ8UiHVPJbY0Fp4yS3a1SU3yxGIzXNx58Gs\" > ./src/router_config.json",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint . --ext '.js,.jsx' --fix"
+  },
+  "buildConfig": {
+    "theme": "@icedesign/theme",
+    "entry": {
+      "index": "src/index.js",
+      "server": "src/server.js"
+    },
+    "localization": false,
+    "output": {
+      "publicPath": "/"
+    },
+    "disableVendor": true
+  },
+  "scaffoldConfig": {
+    "builder": "ice-scripts",
+    "name": "ice-commodity-management-admin",
+    "title": "商家管理系统",
+    "categories": [
+      "行业领域"
+    ],
+    "screenshot": "https://img.alicdn.com/tfs/TB1cmQaCZbpK1RjSZFyXXX_qFXa-2872-1580.png",
+    "screenshots": [
+      "https://img.alicdn.com/tfs/TB1NtNrDxjaK1RjSZKzXXXVwXXa-2872-1582.png",
+      "https://img.alicdn.com/tfs/TB1jt7ZDgDqK1RjSZSyXXaxEVXa-2860-1580.png",
+      "https://img.alicdn.com/tfs/TB1oUpsDyLaK1RjSZFxXXamPFXa-2872-1580.png"
+    ]
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ice-lab/react-materials/tree/master/scaffolds/ice-commodity-management-admin"
+  },
+  "title": "test2"
+}

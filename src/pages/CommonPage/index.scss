@@ -1,0 +1,17 @@
+#page {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+
+    #bd {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.style_navigationWrapper__3UB-6 {
+    z-index: 999;
+}

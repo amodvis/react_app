@@ -1,0 +1,13 @@
+version: '2.3'
+
+services:
+  api:
+    build:
+      context: .
+      args:
+      - NPM_TOKEN=${NPM_TOKEN}
+      - BUILD_ENV=${BUILD_ENV} 
+    ports:
+      - ":80"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d

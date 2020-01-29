@@ -1,0 +1,11 @@
+[
+    {
+        "path": "/index",
+        "is_pull_update": true,
+        "modules": {
+            "hd": [],
+            "bd": [],
+            "ft": []
+        }
+    }
+]
