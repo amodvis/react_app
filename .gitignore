@@ -28,3 +28,4 @@ src/router_config.json
 /library
 /dist
 .npmrc
+/public/version.txt
