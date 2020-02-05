@@ -27,7 +27,7 @@ export default function Footer() {
           <Col l="8">
             <h3 className={styles.title}>使用答疑群</h3>
             <img
-              src="https://ice.alicdn.com/assets/images/qrcode.png"
+              src="https://static-upload.amodvis.com/amodvis/static/image/3f/6d/72/3f6d726e5aa3654ab9fa2d5f5af9baa8.png"
               alt="qr-code"
               className={styles.qrcode}
             />
