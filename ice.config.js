@@ -21,6 +21,14 @@ module.exports = {
   vendor: false,
   entry : entry,
   publicPath:"/public/",
+  plugins: [
+    ['ice-plugin-fusion', {
+      themePackage: '@icedesign/theme',
+    }],
+    ['ice-plugin-moment-locales', {
+      locales: ['zh-cn'],
+    }],
+  ],
   chainWebpack:(config) => {
     if(libraryBlock == true){
       // 修改 webpack output.path
