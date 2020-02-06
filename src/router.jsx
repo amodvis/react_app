@@ -24,7 +24,6 @@ function recursiveRouterConfigV4(config = []) {
       path: item.path,
       layout: item.layout,
       is_pull_update: item.is_pull_update || false,
-      is_has_module: item.is_has_module || false,
       is_cdn_cache: item.is_cdn_cache || false,
       is_user_auth: item.is_user_auth || false,
       component: item.component ? item.component : CommonPage,
@@ -106,7 +105,7 @@ function renderRouterConfigV4(container, router, contextPath) {
           path={routePath}
           render={(props) => {
             return (
-              <routeItem.component data={routeItem.modules} is_has_module={routeItem.is_has_module} is_cdn_cache={routeItem.is_cdn_cache} is_user_auth={routeItem.is_user_auth} is_pull_update={routeItem.is_pull_update} />
+              <routeItem.component data={routeItem.modules} is_cdn_cache={routeItem.is_cdn_cache} is_user_auth={routeItem.is_user_auth} is_pull_update={routeItem.is_pull_update} />
             );
           }}
         />

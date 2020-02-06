@@ -14,19 +14,20 @@
     ".eslintrc"
   ],
   "dependencies": {
-    "@alifd/next": "^1.x",
+    "antd-mobile": "^2.2.14",
     "@antv/data-set": "^0.9.6",
     "@icedesign/container": "^1.x",
     "@icedesign/img": "^1.x",
     "@icedesign/layout": "^1.x",
     "@icedesign/theme": "^1.x",
+    "@icedesign/custom-accordion-block": "^3.0.x",
     "bizcharts": "^3.2.4",
     "classnames": "^2.2.5",
     "foundation-symbol": "^0.1.4",
     "moment": "^2.23.0",
     "prop-types": "^15.5.8",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1"
   },
   "publishConfig": {

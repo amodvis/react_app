@@ -22,7 +22,6 @@ class CommonPage extends Component {
       moduleFetchUrl: envJson.moduleFetchUrl,
       data: props.data,
       is_pull_update: props.is_pull_update,
-      is_has_module: props.is_has_module,
       is_cdn_cache: props.is_cdn_cache,
       is_user_auth: props.is_user_auth,
     };
@@ -39,8 +38,8 @@ class CommonPage extends Component {
     if (!window.app_name_by_domain) {
       window.app_name_by_domain = envJson.app_name_by_domain;
     }
-    if (!window.vendor_id_by_domain) {
-      window.vendor_id_by_domain = envJson.vendor_id_by_domain;
+    if (typeof window.shop_vendor_token == "undefined") {
+      window.shop_vendor_token = envJson.shop_vendor_token;
     }
     if (!window.app_key) {
       window.app_key = envJson.app_key;
@@ -56,18 +55,19 @@ class CommonPage extends Component {
     if (window.debuglog){
         window.debuglog('DEBUG CommonPage componentDidMount');
     }
-    if (this.state.is_has_module){
-        this.getModuleData();
-    }
+    this.getModuleData();
     overscroll(document.querySelector('#page'));
     console.log(this.props.match.path)
   };
 
-  async getModuleData(get_from) {
+getModuleData(get_from) {
+    console.log("getModuleData 1")
     let userInfo = null;
     if (!window.is_not_auth_login && !window.user_auth_token) {
-      userInfo = await getUserInfo(true, false);
+      console.log("getModuleData 2")
+      userInfo =  getUserInfo(true, false);
     }
+    console.log("getModuleData 3")
     if (userInfo) {
       window.user_auth_token = userInfo.token.paperlessEc.token;
     }
@@ -81,9 +81,11 @@ class CommonPage extends Component {
     let fetchUrl = (window.moduleFetchUrl || this.state.moduleFetchUrl) + window.app_name_by_domain;
     fetchUrl += `?id=${id}&product_id=${product_id}&article_id=${article_id}&keyword=${keyword}`;
     let headers = new Headers();
-    headers.append('Authenticate', window.vendor_id_by_domain);
     if (window.app_key) {
       headers.append('App-Key', window.app_key);
+    }
+    if (typeof window.shop_vendor_token != "undefined") {
+      headers.append('shop-vendor-token', window.shop_vendor_token);
     }
     if (window.user_auth_token) {
       UtilFetch.get(window.userSSOUrl + window.user_auth_token, null, headers, false)
@@ -99,14 +101,17 @@ class CommonPage extends Component {
     if (!window.pre_load_page_cache) {
       window.pre_load_page_cache = {};
     }
+    console.log("getModuleData 4")
     if (!isPathComplicated(this.props.match.path) &&
       window.pre_load_page_cache[this.props.match.path] &&
       get_from !== 'from_pull_update'
     ) {
+      console.log("getModuleData 5")
       // 简单页面并且已缓存
       this.setState({ page_module_data: window.pre_load_page_cache[this.props.match.path] });
 
     }
+    console.log("getModuleData 6")
     this.fetchOnePageModuleData(fetchUrl, headers, this.props.data, this.props.match.path,this.state.is_cdn_cache, this.state.is_user_auth, (res, path) => {
       if (!isPathComplicated(this.props.match.path)) {
         // 简单页面才缓存
@@ -114,7 +119,7 @@ class CommonPage extends Component {
       }
       this.setState({ page_module_data: res.data });
     });
-
+    console.log("getModuleData 8")
     fetchUrl += '&pre_load_page_cache=1';
     this.setPrePages2Cache(fetchUrl, headers, (res, path) => {
       window.pre_load_page_cache[path] = res.data;

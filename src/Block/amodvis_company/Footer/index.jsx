@@ -13,7 +13,8 @@ export default function Footer() {
           <Col l="8">
             <h3 className={styles.title}>关于我们</h3>
             <div className={styles.nav}>
-              <a className={styles.link}>私权政策</a>
+              <a className={styles.link}><Link to="/index">首页</Link></a>
+              <a className={styles.link}><Link to="/test">私权政策</Link></a>
               <a className={styles.link}>加入我们</a>
             </div>
           </Col>

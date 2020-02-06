@@ -25,8 +25,8 @@ HTTPUtil.get = function (url, params, headers, isAutoLogin = true) {
         console.log(token)
         console.log('================')
         const fetch_headers = new Headers();
-        if (url.search(/AMODVIS_API_FLAG/) !== -1) {
-          fetch_headers.append('Authenticate', window.vendor_id_by_domain);
+        if (url.search(/AMODVIS_API_FLAG/) !== -1 && typeof window.shop_vendor_token != "undefined") {
+          fetch_headers.append('shop-vendor-token', window.shop_vendor_token);
         }
         console.log(window.app_key)
 
@@ -76,8 +76,8 @@ HTTPUtil.post = function (url, formData, headers, isAutoLogin = true) {
         console.log(token)
         console.log('================')
         const fetch_headers = new Headers();
-        if (url.search(/AMODVIS_API_FLAG/) !== -1) {
-          fetch_headers.append('Authenticate', window.vendor_id_by_domain);
+        if (url.search(/AMODVIS_API_FLAG/) !== -1 && typeof window.shop_vendor_token != "undefined") {
+          fetch_headers.append('shop-vendor-token', window.shop_vendor_token);
         }
         fetch_headers.append('Content-Type', 'application/json;charset=UTF-8');
         if (window.app_key && url.search(/AMODVIS_API_FLAG/) === -1) {
