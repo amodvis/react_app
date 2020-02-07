@@ -28,7 +28,6 @@
 }
 
 .link {
-  width: 124px;
   height: 40px;
   padding: 0 16px;
   color: rgba(31, 56, 88, 0.6);
@@ -41,3 +40,6 @@
   border-radius: 18px;
   cursor: pointer;
 }
+
+.btn_list{display: block;}
+.btn_list a{float: left; margin-right: 10px;}
