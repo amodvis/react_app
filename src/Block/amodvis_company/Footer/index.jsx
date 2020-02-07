@@ -22,7 +22,7 @@ export default function Footer() {
             <h3 className={styles.title}>使用帮助</h3>
             <div className={styles.nav}>
               <a className={styles.link}>联系我们</a>
-              <a className={styles.link} target="_blank" href="https://gitee.com/amodvis/amodvis">使用文档</a>
+              <Link className={styles.link} to="/document/index">使用文档</Link>
             </div>
           </Col>
           <Col l="8">
