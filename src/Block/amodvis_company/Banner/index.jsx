@@ -13,31 +13,27 @@ export default class Banner extends Component {
     super(props);
   }
 
-  getLink(btn_list) {
+  getLink = (btn_list) => {
     if (!btn_list) {
       return '';
     }
-    let renderLink;
-    for (var i = 0; i <= btn_list.length; i++) {
-      if (!btn_list[i] || !btn_list[i].text) {
-        continue;
-      }
-      let link = btn_list[i].text;
-      let text = btn_list[i].link;
-      let patt1 = new RegExp("^http");
-      if (!text) {
-        renderLink += '';
-        continue;
-      }
-      if (patt1.test(link)) {
-        console.log(link)
-        renderLink += (<a className={styles.link} href={link} target="_blank">{text}</a>)
-      } else {
-        console.log(222222)
-        renderLink += (<Link className={styles.link} to={link}>{text}</Link>)
-      }
-    }
-    return renderLink
+    return Object.keys(btn_list)
+      .map((key) => {
+        if (!btn_list[key].text) {
+          return;
+        }
+        let renderLink;
+        let item = btn_list[key];
+        let text = item.text;
+        let link = item.link;
+        let patt1 = new RegExp("^http");
+        if (patt1.test(link)) {
+          renderLink = (<a className={styles.link} href={link} target="_blank">{text}</a>)
+        } else {
+          renderLink = (<Link className={styles.link} to={link}>{text}</Link>)
+        }
+        return renderLink;
+      })
   }
 
   render() {
