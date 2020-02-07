@@ -20,7 +20,10 @@ module.exports = {
   outputDir: 'dist',
   vendor: false,
   entry : entry,
-  publicPath:"/public/",
+  publicPath:"/",
+  devServer: {
+    historyApiFallback: true
+  },
   plugins: [
     ['ice-plugin-fusion', {
       themePackage: '@icedesign/theme',

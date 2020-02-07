@@ -1,4 +1,3 @@
-import { PullToRefresh, Toast } from 'antd-mobile';
 import { withRouter } from 'react-router-dom';
 import 'antd-mobile/dist/antd-mobile.css';
 import React, { Component } from 'react';
@@ -249,8 +248,7 @@ getModuleData(get_from) {
       });
   };
 
-  getColContent = (section, height, fadeIn, isPullToRefresh) => {
-    // console.log(isPullToRefresh)
+  getColContent = (section, height, fadeIn) => {
     return Object.values(section)
       .map((sectionItem, j) => {
         const className = Object.keys(section)[j];
@@ -259,10 +257,9 @@ getModuleData(get_from) {
             key={`module-${className}`}
             className={`${className}`}
             data-key={`module-${className}`}
-            // style={{ minHeight: className === 'main' ? height : 'auto', height: (className === 'main' && !isPullToRefresh) ? height : 'auto', overflowY: 'auto' }}
             style={{
               minHeight: className === 'main' ? height : 'auto',
-              height: (className === 'main' && !isPullToRefresh) ? height : 'auto', overflowY: 'auto',
+              height: (className === 'main') ? height : 'auto', overflowY: 'auto',
               display: 'flex',
               flexDirection: 'column'
             }}
@@ -273,21 +270,21 @@ getModuleData(get_from) {
       });
   };
 
-  getSections = (sections, height, fadeIn, isPullToRefresh) => {
+  getSections = (sections, height, fadeIn) => {
     return sections.length && sections.map((section, i) => {
-      return this.colMain(section, i, height, fadeIn, isPullToRefresh);
+      return this.colMain(section, i, height, fadeIn);
     });
   };
 
-  colMain = (section, i, height, fadeIn, isPullToRefresh) => {
+  colMain = (section, i, height, fadeIn) => {
     if (Object.values(section).length > 1) {
       return cre('div', {
         className: 'col_main',
         key: `col_main-${i}`,
         'data-key': `col_main-${i}`,
-      }, this.getColContent(section, height, null, isPullToRefresh));
+      }, this.getColContent(section, height, null));
     }
-    return this.getColContent(section, height, fadeIn, isPullToRefresh);
+    return this.getColContent(section, height, fadeIn);
   };
 
   setLayout = (data) => {
@@ -296,23 +293,7 @@ getModuleData(get_from) {
         return (
           <div id={layout} key={`layout-${layout}`} data-key={`layout-${layout}`}>
             {layout === 'bd' ? (
-              this.state.is_pull_update ? (
-                <PullToRefresh
-                  distanceToRefresh={35}
-                  indicator={{ activate: '鬆開立即刷新' }}
-                  onRefresh={() => {
-                    this.getModuleData('from_pull_update');
-                  }}
-                  style={{
-                    height: `calc(var(--vh, 1vh) * 100${(data.hd && data.hd.length) ? ' - 44px' : ''}${(data.ft && data.ft.length) ? ' - var(--tabsh)' : ''})`,
-                    overflow: 'hidden',
-                    overflowY: 'auto',
-                    WebkitOverflowScrolling: 'touch',
-                  }}
-                >
-                  {data[layout].length ? this.getSections(data[layout], `calc(var(--vh, 1vh) * 100${(data.hd && data.hd.length) ? ' - 44px' : ''}${(data.ft && data.ft.length) ? ' - var(--tabsh)' : ''})`, 'fadeIn', 'PullToRefresh') : null}
-                </PullToRefresh>
-              ) : data[layout].length ? this.getSections(data[layout], `calc(var(--vh, 1vh) * 100${(data.hd && data.hd.length) ? ' - 44px' : ''}${(data.ft && data.ft.length) ? ' - var(--tabsh)' : ''})`, 'fadeIn') : null
+            data[layout].length ? this.getSections(data[layout], `calc(var(--vh, 1vh) * 100${(data.hd && data.hd.length) ? ' - 44px' : ''}${(data.ft && data.ft.length) ? ' - var(--tabsh)' : ''})`, 'fadeIn') : null
             ) : (data[layout].length ? this.getSections(data[layout]) : null)
             }
           </div>

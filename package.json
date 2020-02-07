@@ -21,6 +21,7 @@
     "@icedesign/layout": "^1.x",
     "@icedesign/theme": "^1.x",
     "@icedesign/custom-accordion-block": "^3.0.x",
+    "@icedesign/intro-tab-block": "^3.0.1",
     "bizcharts": "^3.2.4",
     "classnames": "^2.2.5",
     "foundation-symbol": "^0.1.4",
