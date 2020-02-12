@@ -6,5 +6,6 @@ import Markdown from './Markdown';
 import Resource from './Resource';
 import Header from './Header';
 import Footer from './Footer';
+import Chat from './Chat';
 
-export { Banner, Data, Feature, Introduction, Markdown, Resource, Header, Footer };
+export { Banner, Data, Feature, Introduction, Markdown, Resource, Header, Footer, Chat };

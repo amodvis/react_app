@@ -28,9 +28,9 @@ export default class Banner extends Component {
         let link = item.link;
         let patt1 = new RegExp("^http");
         if (patt1.test(link)) {
-          renderLink = (<a className={styles.link} href={link} target="_blank">{text}</a>)
+          renderLink = (<a key={key} className={styles.link} href={link} target="_blank">{text}</a>)
         } else {
-          renderLink = (<Link className={styles.link} to={link}>{text}</Link>)
+          renderLink = (<Link key={key} className={styles.link} to={link}>{text}</Link>)
         }
         return renderLink;
       })
