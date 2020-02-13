@@ -21,33 +21,37 @@ function useSocketOnMessage(callback, userInfo) {
 
   // Set up the interval.
   useEffect(() => {
-    window.socket = new WebSocket(webimWebsocketUrl + 'chat_room/upgrade?user_id=' + userInfo.user_id);
-    window.socket.onmessage = function (event) {
-      var data = JSON.parse(event.data);
-      savedCallback.current(data)
-    };
+    let intervalID = 0
+    let retryInit = () => {
+      window.socket = new WebSocket(webimWebsocketUrl + 'chat_room/upgrade?user_id=' + userInfo.user_id);
+      window.socket.onmessage = function (event) {
+        var data = JSON.parse(event.data);
+        savedCallback.current(data)
+      }
+      window.socket.onopen = function () {
+        console.log("-------on open -------")
+        if (intervalID) {
+          clearInterval(intervalID)
+          intervalID = 0
+        }
+      }
+      window.socket.onclose = function (e) {
+        if (intervalID) {
+          return
+        }
+        console.log(e.code + ":" + e.reason);
+        if (e.code == 1006) {
+          intervalID = setInterval(function () {
+            retryInit()
+          }, 2000)
+        }
+      }
+    }
+    retryInit()
+
   }, []);
 }
-export default function Chat(props) {
-  let userInfo = { user_id: 0, head_pic: "", user_name: "" }
-  if (props.module_data && props.module_data.user_info) {
-    userInfo = props.module_data.user_info
-  }
-  console.log(userInfo)
-  console.log(props)
-  const chatMsgListRef = useRef()
-  const RoomNameRef = useRef()
-  const proxyBtnRef = useRef()
-  const closeBtnRef = useRef()
-  const [refresh, setRefresh] = useState(false);
-  const [pickerStyle, setPickerStyle] = useState(styleOfPicker.default);
-  const roomListDefault = [];
-  const lastRoomIDDefault = 0
-  const [lastRoomID, setlastRoomID] = useState(lastRoomIDDefault);
-  const [roomList, setRoomList] = useState(roomListDefault);
-  const [msgList, setMsgList] = useState({});
-  const [createDisplayBlock, setCreateDisplayBlock] = useState("none");
-  const textareaRef = useRef()
+let initSocket = (userInfo, msgList, setMsgList, setRefresh, chatMsgListRef) => {
   useSocketOnMessage((data) => {
     if (data.ChatMstType == 0) {
       let content = data.Content
@@ -65,6 +69,30 @@ export default function Chat(props) {
       chatMsgListRef.current.scrollTop = chatMsgListRef.current.scrollHeight;
     }
   }, userInfo);
+}
+export default function Chat(props) {
+  // todo fix
+  let userInfo = window.amodvis_user_info ? window.amodvis_user_info : { user_id: 1, head_pic: "http://106.54.93.177:9091/amodvis/static/image/fd/83/05/fd8305e6d8cad189dc342aa8ac8aa5a3.jpeg", user_name: "user_1" }
+  console.log(userInfo)
+  console.log(props)
+  const chatMsgListRef = useRef()
+  const RoomNameRef = useRef()
+  const proxyBtnRef = useRef()
+  const closeBtnRef = useRef()
+  const [refresh, setRefresh] = useState(false);
+  const [pickerStyle, setPickerStyle] = useState(styleOfPicker.default);
+  const roomListDefault = [];
+  const lastRoomIDDefault = 0
+  const [lastRoomID, setlastRoomID] = useState(lastRoomIDDefault);
+  const [roomList, setRoomList] = useState(roomListDefault);
+  const [msgList, setMsgList] = useState({});
+  const [createDisplayBlock, setCreateDisplayBlock] = useState("none");
+  const textareaRef = useRef();
+  (function (userInfo, msgList, setMsgList, setRefresh, chatMsgListRef) {
+    initSocket(userInfo, msgList, setMsgList, setRefresh, chatMsgListRef)
+  })(
+    userInfo, msgList, setMsgList, setRefresh, chatMsgListRef
+  )
   useEffect(() => {
     refresh && setTimeout(() => setRefresh(false));
   }, [refresh]);

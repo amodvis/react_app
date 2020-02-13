@@ -55,7 +55,7 @@ class CommonPage extends Component {
         window.debuglog('DEBUG CommonPage componentDidMount');
     }
     this.getModuleData();
-    overscroll(document.querySelector('#page'));
+    document.querySelector('#page').scrollTop = 1
     console.log(this.props.match.path)
   };
 

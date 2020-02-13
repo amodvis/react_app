@@ -28,7 +28,7 @@ export default function Footer() {
           <Col l="8">
             <h3 className={styles.title}>使用答疑群</h3>
             <img
-              src="https://static-upload.amodvis.com/amodvis/static/image/3f/6d/72/3f6d726e5aa3654ab9fa2d5f5af9baa8.png"
+              src="http://106.54.93.177:9091/amodvis/static/image/1d/2e/08/1d2e08c466ab6016bd946fe4ff3d3ec4.png"
               alt="qr-code"
               className={styles.qrcode}
             />
