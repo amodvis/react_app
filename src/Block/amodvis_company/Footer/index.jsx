@@ -21,7 +21,7 @@ export default function Footer() {
           <Col l="8">
             <h3 className={styles.title}>使用帮助</h3>
             <div className={styles.nav}>
-              <a className={styles.link}>联系我们</a>
+              <Link className={styles.link} to="/web_im">联系我们</Link>
               <Link className={styles.link} to="/document/index">使用文档</Link>
             </div>
           </Col>
