@@ -47,7 +47,7 @@
   height: 400px;
 }
 .chat_list_item {
-  border: 1px solid #d6d6d6;
+  border: 1px solid #e9e9e9;
   margin-bottom: 10px;
 }
 .item_detail {
@@ -93,6 +93,7 @@
   color: #999;
   margin-top: 60px;
   resize: none;
+  padding: 10px;
 }
 .create_room_form {
   position: relative;
@@ -103,8 +104,8 @@
   top: 15px;
   z-index: 100;
   display: block;
-  width: 220px;
-  padding: 20px;
+  width: 150px;
+  padding: 15px;
   background-color: #fff;
   border: 1px solid #e0e1e1;
   box-shadow: 0px 0px 10px rgba(74, 80, 82, 0.3);
@@ -136,8 +137,9 @@
   display: block;
   border: 1px solid #cdcdcd;
   padding: 5px;
-  width: 180px;
-  line-height: 24px;
+  width: 115px;
+  line-height: 20px;
+  font-size: 12px;
 }
 .layui-md-btn {
   display: inline-block;
@@ -169,24 +171,26 @@
   background-color: #f1f1f1;
   color: #666666;
   border: 1px solid #f1f1f1;
-  line-height: 30px;
-  padding: 0 18px;
+  line-height: 20px;
+  padding: 0 6px;
   cursor: pointer;
   display: inline-block;
-  height: 30px;
+  height: 20px;
   text-align: center;
   margin-left: 15px;
+  font-size: 12px;
 }
 .layui_md_btn {
   display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 18px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 6px;
   background-color: #2b7af6;
   text-align: center;
   border: 1px solid #2b7af6;
   cursor: pointer;
   color: #ffffff;
+  font-size: 12px;
 }
 .pickerClose {
   height: 50px;
@@ -229,4 +233,23 @@
   height: 50px;
   float: left;
   margin-left: 5px;
+}
+.close_pop_btn {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  z-index: 999;
+  text-align: center;
+  line-height: 20px;
+  left: 290px;
+  top: 60px;
+  background: #ae65c5;
+  border: 1px solid #724082;
+  border-radius: 40px;
+  color: #fff;
+  font-size: 30px;
+  line-height: 20px;
+  font-family: 黑体;
+  cursor: pointer;
+  display: none;
 }

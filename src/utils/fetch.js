@@ -60,7 +60,8 @@ HTTPUtil.get = function (url, params, headers, isAutoLogin = true) {
           resolve(response);
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        let log = e.message
         reject({ status: -1 });
       });
   });

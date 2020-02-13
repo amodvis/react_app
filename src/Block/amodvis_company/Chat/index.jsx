@@ -4,13 +4,14 @@ import HTTPUtil from '../../../utils/fetch'
 
 import { Picker, Emoji, NimbleEmoji } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
-
+let envJson = require("../../../.env.json");
 let styleOfPicker = {
   default: { height: '50px', overflow: 'hidden', width: '100%', borderBottom: 'none', position: 'absolute', left: 0, top: 0 },
   show: { height: 'auto', overflow: 'auto', width: '100%', borderBottom: 'none', position: 'absolute', left: 0, top: 0 }
 }
-
-function useSocketOnMessage(callback) {
+let webimBaseUrl = envJson.webimBaseUrl
+let webimWebsocketUrl = envJson.webimWebsocketUrl
+function useSocketOnMessage(callback, userInfo) {
   const savedCallback = useRef();
 
   // Remember the latest function.
@@ -20,7 +21,7 @@ function useSocketOnMessage(callback) {
 
   // Set up the interval.
   useEffect(() => {
-    window.socket = new WebSocket('ws://127.0.0.1:8080/chat_room/upgrade?user_id=1');
+    window.socket = new WebSocket(webimWebsocketUrl + 'chat_room/upgrade?user_id=' + userInfo.user_id);
     window.socket.onmessage = function (event) {
       var data = JSON.parse(event.data);
       savedCallback.current(data)
@@ -28,9 +29,16 @@ function useSocketOnMessage(callback) {
   }, []);
 }
 export default function Chat(props) {
+  let userInfo = { user_id: 0, head_pic: "", user_name: "" }
+  if (props.module_data && props.module_data.user_info) {
+    userInfo = props.module_data.user_info
+  }
+  console.log(userInfo)
+  console.log(props)
   const chatMsgListRef = useRef()
   const RoomNameRef = useRef()
   const proxyBtnRef = useRef()
+  const closeBtnRef = useRef()
   const [refresh, setRefresh] = useState(false);
   const [pickerStyle, setPickerStyle] = useState(styleOfPicker.default);
   const roomListDefault = [];
@@ -39,8 +47,6 @@ export default function Chat(props) {
   const [roomList, setRoomList] = useState(roomListDefault);
   const [msgList, setMsgList] = useState({});
   const [createDisplayBlock, setCreateDisplayBlock] = useState("none");
-
-
   const textareaRef = useRef()
   useSocketOnMessage((data) => {
     if (data.ChatMstType == 0) {
@@ -58,14 +64,14 @@ export default function Chat(props) {
       setRefresh(true);
       chatMsgListRef.current.scrollTop = chatMsgListRef.current.scrollHeight;
     }
-  });
+  }, userInfo);
   useEffect(() => {
     refresh && setTimeout(() => setRefresh(false));
   }, [refresh]);
 
   const handleClick = (roomID) => {
     return () => {
-      window.socket.send(`{"ChatMstType":1,"Content":{"RoomID":` + roomID + `,"UserID":1}}`)
+      window.socket.send(`{"ChatMstType":1,"Content":{"RoomID":` + roomID + `,"UserID":` + userInfo.user_id + `}}`)
       setRoomList(roomList.map((e, k) => {
         if (e.room_id == roomID) {
           e.is_checked = true
@@ -83,7 +89,7 @@ export default function Chat(props) {
     // 获取ROOM MESSGAE
     let params = { "room_id": roomID, "page": 1, "page_size": 100 }
     let headers = {}
-    HTTPUtil.get("http://127.0.0.1:8080/chat_room/room_msg_latest", params, headers)
+    HTTPUtil.get(webimBaseUrl + "chat_room/room_msg_latest", params, headers)
       .then((res) => {
         if (res.State && res.Data) {
           res.Dada = Object.keys(res.Data).map((key) => {
@@ -154,7 +160,11 @@ export default function Chat(props) {
       partsOfTheMessageText.push(finalPartOfTheText)
     }
     if (partsOfTheMessageText.length > 0) {
-      return partsOfTheMessageText.map(p => <span>{p}</span>)
+      let count = 1
+      return partsOfTheMessageText.map(p => {
+        count++
+        return (<span key={count}>{p}</span>)
+      })
     } else {
       return msg_content
     }
@@ -177,14 +187,14 @@ export default function Chat(props) {
   }
 
   const sendMsg = () => {
-    window.socket.send('{"ChatMstType":0,"Content":{"MsgContent":"' + textareaRef.current.value + '","RoomID":' + lastRoomID + ',"UserID":1}}')
+    window.socket.send('{"ChatMstType":0,"Content":{"MsgContent":"' + textareaRef.current.value + '","RoomID":' + lastRoomID + ',"UserID":' + userInfo.user_id + '}}')
     textareaRef.current.value = ""
   }
 
   const initChat = () => {
     let params = {}
     let headers = {}
-    HTTPUtil.get("http://127.0.0.1:8080/chat_room/get_all_room", params, headers)
+    HTTPUtil.get(webimBaseUrl + "chat_room/get_all_room", params, headers)
       .then((res) => {
         if (res.State && res.Data) {
           var isSetCheck = false;
@@ -228,9 +238,9 @@ export default function Chat(props) {
     if (!roomName) {
       return
     }
-    let params = { "room_name": roomName, "user_id": 1 }
+    let params = { "room_name": roomName, "user_id": userInfo.user_id }
     let headers = {}
-    HTTPUtil.get("http://127.0.0.1:8080/chat_room/create", params, headers)
+    HTTPUtil.get(webimBaseUrl + "chat_room/create", params, headers)
       .then((res) => {
         if (res.State) {
           initChat()
@@ -247,6 +257,7 @@ export default function Chat(props) {
   const emojiSelet = (data) => {
     setPickerStyle(styleOfPicker.default)
     proxyBtnRef.current.style.display = "block"
+    closeBtnRef.current.style.display = "none"
     insertText(textareaRef.current, data.colons)
   }
 
@@ -267,18 +278,23 @@ export default function Chat(props) {
     }
   }
 
-  const proxy_item = (index) => {
+  const proxyItemHandle = (index) => {
     return function () {
       console.log(index)
       if (pickerStyle.overflow == 'hidden') {
         setPickerStyle(styleOfPicker.show)
         // ReactDom
         document.getElementsByClassName("emoji-mart-anchors")[0].children[index].click()
-        if (proxyBtnRef.current.style.display == "block") {
-          proxyBtnRef.current.style.display = "none"
-        }
+        proxyBtnRef.current.style.display = "none"
+        closeBtnRef.current.style.display = "block"
       }
     }
+  }
+
+  const closeBtnHandle = () => {
+    closeBtnRef.current.style.display = "none"
+    proxyBtnRef.current.style.display = "block"
+    setPickerStyle(styleOfPicker.default)
   }
 
   return (
@@ -313,16 +329,17 @@ export default function Chat(props) {
               style={pickerStyle} EmojiSkin={2}
               sheetSize={32} showPreview={false} showSkinTones={false} onSelect={emojiSelet} />
             <div className={styles.picker_proxy} ref={proxyBtnRef}>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(0)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(1)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(2)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(3)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(4)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(5)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(6)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(7)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxy_item(8)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(0)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(1)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(2)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(3)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(4)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(5)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(6)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(7)}></div>
+              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(8)}></div>
             </div>
+            <div className={styles.close_pop_btn} ref={closeBtnRef} onClick={closeBtnHandle}>-</div>
             <textarea ref={textareaRef} className={styles.textarea_content}></textarea>
           </div>
           <div className={styles.chat_btn}>
