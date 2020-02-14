@@ -11,7 +11,7 @@ export default function Markdown(props) {
   }
   return (
     <div>
-      <ReactMarkdown className="markdown-docs-body" source={adminData} />
+      <ReactMarkdown className={(window.isMobile ? "mobile_markdown-docs-body" : "") + " markdown-docs-body"} source={adminData} />
     </div>
   );
 }

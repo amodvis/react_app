@@ -1,5 +1,9 @@
 .container {
-  padding: 80px 0;
+  padding: 20px 0;
+  background: #f6f7f9;
+}
+.mobile_container{
+  padding: 20px 0;
   background: #f6f7f9;
 }
 
@@ -7,6 +11,11 @@
   width: 1200px;
   margin: 0 auto;
 }
+.mobile_content{
+  width: auto;
+  margin: 0 auto;
+}
+
 
 .item {
   padding: 10px 20px;

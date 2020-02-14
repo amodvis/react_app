@@ -1,9 +1,16 @@
 .header {
+  width: 100%;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
-  width: 1200px;
   margin: 0 auto;
-  padding: 20px 0;
+}
+.mobile_header{
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 
 .logoLink {

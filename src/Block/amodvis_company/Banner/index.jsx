@@ -47,10 +47,11 @@ export default class Banner extends Component {
     } else {
       module_data = this.props.module_data;
     }
+    
 
     return (
       <div className={styles.container} >
-        <div className={styles.content}>
+        <div className={window.isMobile?styles.mobile_content:styles.content}>
           <div className={styles.title}>{module_data.text1}</div>
           <div className={styles.desc}>{module_data.text2}</div>
           <div className={styles.btn_list}>

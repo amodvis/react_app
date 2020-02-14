@@ -41,7 +41,7 @@
     margin-top: 32px;
   }
 
-  pre[class*='language-'] {
+  pre[class*="language-"] {
     margin: 10px 0;
     padding: 5px;
     overflow-x: auto;
@@ -178,11 +178,17 @@
     clear: both;
   }
   pre > code,
-  pre[class*='language-'] > code {
+  pre[class*="language-"] > code {
     display: block;
     padding: 1em;
   }
   .highlight pre {
     background: #f5f2f0;
   }
+}
+.mobile_markdown-docs-body {
+  max-width: 90%;
+}
+.mobile_markdown-docs-body img{
+  max-width: 90%;
 }

@@ -7,8 +7,8 @@ const { Row, Col } = Grid;
 
 export default function Footer() {
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
+    <div className={window.isMobile ? styles.mobile_container : styles.container}>
+      <div className={window.isMobile ? styles.mobile_content : styles.content}>
         <Row>
           <Col l="8">
             <h3 className={styles.title}>关于我们</h3>

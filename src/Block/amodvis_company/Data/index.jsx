@@ -7,22 +7,44 @@ import styles from './index.module.scss';
 
 const { Row, Col } = Grid;
 
+let listChart = () => {
+  if (window.isMobile) {
+    return (
+      <div>
+        <div>
+          <BarChart />
+        </div>
+        <div>
+          <PieChart />
+        </div>
+        <div>
+          <LineChart />
+        </div>
+      </div>
+    )
+  } else {
+    return (
+      <Row gutter="20">
+        <Col l="8">
+          <BarChart />
+        </Col>
+        <Col l="8">
+          <PieChart />
+        </Col>
+        <Col l="8">
+          <LineChart />
+        </Col>
+      </Row>
+    )
+  }
+}
+
 export default function Data() {
   return (
-    <div className={styles.container}>
+    <div className={window.isMobile ? styles.mobile_container : styles.container}>
       <h3 className={styles.title}>提效数据</h3>
-      <div className={styles.content}>
-        <Row gutter="20">
-          <Col l="8">
-            <BarChart />
-          </Col>
-          <Col l="8">
-            <PieChart />
-          </Col>
-          <Col l="8">
-            <LineChart />
-          </Col>
-        </Row>
+      <div className={window.isMobile ? styles.mobile_content : styles.content}>
+        {listChart()}
       </div>
     </div>
   );

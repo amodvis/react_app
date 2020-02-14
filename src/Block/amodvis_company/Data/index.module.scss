@@ -1,9 +1,17 @@
 .container {
-  padding: 80px 0;
+  padding: 20px 0;
+}
+.mobile_container {
+  padding: 20px 0;
+  display: none;
 }
 
 .content {
   width: 1200px;
+  margin: 0 auto;
+}
+.mobile_content {
+  width: 100%;
   margin: 0 auto;
 }
 

@@ -21,7 +21,7 @@ export default class Header extends Component {
       module_data = this.props.module_data;
     }
     return (
-      <div className={styles.header}>
+      <div className={window.isMobile ? styles.mobile_header : styles.header}>
         <div className={styles.logo}>
           <Link to="/" className={styles.logoLink}>
             {module_data.logo_name}

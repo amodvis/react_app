@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 export default function Resource() {
   return (
-    <div className={styles.container}>
+    <div className={window.isMobile ? styles.mobile_container : styles.container}>
       <h3 className={styles.title}>标题简介</h3>
       <div className={styles.content}>
         <div className={styles.cellleftContent}>

@@ -20,8 +20,8 @@ export default class Feature extends Component {
       module_data = this.props.module_data.list;
     }
     return (
-      <div className={styles.container}>
-        <Row wrap className={styles.content}>
+      <div className={window.isMobile ? styles.mobile_container : styles.container}>
+        <Row wrap className={window.isMobile ? styles.mobile_content : styles.content}>
           {module_data.map((item, index) => {
             return (
               <Col xxs="12" s="6" l="6" key={index} className={styles.item}>
