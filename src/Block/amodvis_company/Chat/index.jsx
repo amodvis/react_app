@@ -21,7 +21,6 @@ function useSocketOnMessage(callback, userInfo) {
 
   // Set up the interval.
   useEffect(() => {
-    let intervalID = 0
     let retryInit = () => {
       window.socket = new WebSocket(webimWebsocketUrl + 'chat_room/upgrade?user_id=' + userInfo.user_id);
       window.socket.onmessage = function (event) {
@@ -29,26 +28,20 @@ function useSocketOnMessage(callback, userInfo) {
         savedCallback.current(data)
       }
       window.socket.onopen = function () {
-        console.log("-------on open -------")
-        if (intervalID) {
-          clearInterval(intervalID)
-          intervalID = 0
-        }
+        console.log("------websocket open------");
+      }
+      window.socket.onerror = function (e) {
+        console.log("------websocket onerror------");
       }
       window.socket.onclose = function (e) {
-        if (intervalID) {
-          return
-        }
         console.log(e.code + ":" + e.reason);
-        if (e.code == 1006) {
-          intervalID = setInterval(function () {
-            retryInit()
-          }, 2000)
-        }
+        window.socket.close();
+        setTimeout(() => {
+          retryInit();
+        }, 2000);
       }
     }
     retryInit()
-
   }, []);
 }
 let initSocket = (userInfo, msgList, setMsgList, setRefresh, chatMsgListRef) => {
@@ -214,7 +207,10 @@ export default function Chat(props) {
     })
   }
 
-  const sendMsg = () => {
+  const sendMsgHandle = () => {
+    if (lastRoomID == 0) {
+      return
+    }
     window.socket.send('{"ChatMstType":0,"Content":{"MsgContent":"' + textareaRef.current.value + '","RoomID":' + lastRoomID + ',"UserID":' + userInfo.user_id + '}}')
     textareaRef.current.value = ""
   }
@@ -245,6 +241,7 @@ export default function Chat(props) {
           setRoomList(res.Dada)
           getRoomMsgDetail(temLastRoomID)
           setlastRoomID(temLastRoomID)
+          window.socket.send(`{"ChatMstType":1,"Content":{"RoomID":` + temLastRoomID + `,"UserID":` + userInfo.user_id + `}}`)
         }
       })
   }
@@ -371,7 +368,7 @@ export default function Chat(props) {
             <textarea ref={textareaRef} className={styles.textarea_content}></textarea>
           </div>
           <div className={styles.chat_btn}>
-            <div className={styles.submit_msg} onClick={sendMsg}>回复</div>
+            <div className={styles.submit_msg} onClick={sendMsgHandle}>回复</div>
           </div>
         </div>
       </div>
