@@ -145,9 +145,17 @@ export default function Chat(props) {
     })
   }
 
+  const appendzero = (obj) => {
+    if (obj < 10) {
+      return "0" + "" + obj
+    } else {
+      return obj
+    }
+  }
+
   const getFormatTime = (value) => {
     var date = new Date(parseInt(value) * 1000)
-    var tt = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-') + '  ' + [date.getHours(), date.getMinutes(), date.getSeconds()].join(':');
+    var tt = [date.getFullYear(), appendzero(date.getMonth() + 1), appendzero(date.getDate())].join('-') + '  ' + [appendzero(date.getHours()), appendzero(date.getMinutes()), appendzero(date.getSeconds())].join(':');
     return tt;
   }
 
@@ -281,7 +289,7 @@ export default function Chat(props) {
 
   const emojiSelet = (data) => {
     setPickerStyle(styleOfPicker.default)
-    proxyBtnRef.current.style.display = "block"
+    proxyBtnRef.current.style.display = "flex"
     closeBtnRef.current.style.display = "none"
     insertText(textareaRef.current, data.colons)
   }
@@ -318,13 +326,13 @@ export default function Chat(props) {
 
   const closeBtnHandle = () => {
     closeBtnRef.current.style.display = "none"
-    proxyBtnRef.current.style.display = "block"
+    proxyBtnRef.current.style.display = "flex"
     setPickerStyle(styleOfPicker.default)
   }
 
   return (
-    <div className={styles.content}>
-      <div className={styles.left_part}>
+    <div className={window.isMobile ? styles.mobile_content : styles.content} >
+      <div className={styles.mobile_left_part}>
         <div className={styles.create_room} onClick={createRoomHandle}>创建频道</div>
         <div className={styles.create_room_form}>
           <div className={styles.md_addnavbox} style={{ display: createDisplayBlock }}>
@@ -344,7 +352,7 @@ export default function Chat(props) {
           {getRoomList(roomList)}
         </div>
       </div>
-      <div className={styles.right_part}>
+      <div className={styles.mobile_right_part}>
         <div className={styles.chat_list} ref={chatMsgListRef}>
           {getChatListItem(msgList[lastRoomID])}
         </div>
@@ -353,19 +361,19 @@ export default function Chat(props) {
             <Picker set="emojione"
               style={pickerStyle} EmojiSkin={2}
               sheetSize={32} showPreview={false} showSkinTones={false} onSelect={emojiSelet} />
-            <div className={styles.picker_proxy} ref={proxyBtnRef}>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(0)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(1)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(2)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(3)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(4)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(5)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(6)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(7)}></div>
-              <div className={styles.picker_proxy_item} onClick={proxyItemHandle(8)}></div>
+            <div className={styles.mobile_picker_proxy} ref={proxyBtnRef}>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(0)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(1)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(2)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(3)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(4)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(5)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(6)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(7)}>&nbsp;</div>
+              <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(8)}>&nbsp;</div>
             </div>
-            <div className={styles.close_pop_btn} ref={closeBtnRef} onClick={closeBtnHandle}>-</div>
-            <textarea ref={textareaRef} className={styles.textarea_content}></textarea>
+            <div className={styles.close_pop_btn} ref={closeBtnRef} onClick={closeBtnHandle}><div className={styles.close_line}></div></div>
+            <textarea ref={textareaRef} className={styles.mobile_textarea_content}></textarea>
           </div>
           <div className={styles.chat_btn}>
             <div className={styles.submit_msg} onClick={sendMsgHandle}>回复</div>
