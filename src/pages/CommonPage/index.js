@@ -293,7 +293,7 @@ getModuleData(get_from) {
         return (
           <div id={layout} key={`layout-${layout}`} data-key={`layout-${layout}`}>
             {layout === 'bd' ? (
-            data[layout].length ? this.getSections(data[layout], `calc(var(--vh, 1vh) * 100${(data.hd && data.hd.length) ? ' - 44px' : ''}${(data.ft && data.ft.length) ? ' - var(--tabsh)' : ''})`, 'fadeIn') : null
+            data[layout].length ? this.getSections(data[layout], ``, 'fadeIn') : null
             ) : (data[layout].length ? this.getSections(data[layout]) : null)
             }
           </div>

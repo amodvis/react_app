@@ -1,0 +1,10 @@
+.amod_chat_main .emoji-mart-scroll {
+    position: absolute;
+    height:258px;
+    left: 0;
+    top: -260px;
+    z-index: 9999;
+    background: #fff;
+    width: 100%;
+  }
+  .emoji-mart-search{display: none;}

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './index.module.scss';
+import './mystyle.css';
 import HTTPUtil from '../../../utils/fetch'
 
 import { Picker, Emoji, NimbleEmoji } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 let envJson = require("../../../.env.json");
 let styleOfPicker = {
-  default: { height: '50px', overflow: 'hidden', width: '100%', borderBottom: 'none', position: 'absolute', left: 0, top: 0 },
-  show: { height: 'auto', overflow: 'auto', width: '100%', borderBottom: 'none', position: 'absolute', left: 0, top: 0 }
+  default: { height: '50px', overflow: 'hidden', width: '100%', borderBottom: 'none', position: 'absolute', left: 0, top: 0, marginBottom: "0px" },
+  show: { height: 'auto', overflow: 'visible', width: '100%', borderBottom: 'none', position: 'relative', left: 0, top: 0, marginBottom: "1px" }
 }
 let webimBaseUrl = envJson.webimBaseUrl
 let webimWebsocketUrl = envJson.webimWebsocketUrl
@@ -221,6 +222,7 @@ export default function Chat(props) {
     }
     window.socket.send('{"ChatMstType":0,"Content":{"MsgContent":"' + textareaRef.current.value + '","RoomID":' + lastRoomID + ',"UserID":' + userInfo.user_id + '}}')
     textareaRef.current.value = ""
+    closeBtnHandle()
   }
 
   const initChat = () => {
@@ -357,9 +359,9 @@ export default function Chat(props) {
           {getChatListItem(msgList[lastRoomID])}
         </div>
         <div className={styles.chat_content}>
-          <div className={styles.chat_main}>
+          <div className={styles.chat_main + " amod_chat_main"}>
             <Picker set="emojione"
-              style={pickerStyle} EmojiSkin={2}
+              style={pickerStyle} EmojiSkin={0}
               sheetSize={32} showPreview={false} showSkinTones={false} onSelect={emojiSelet} />
             <div className={styles.mobile_picker_proxy} ref={proxyBtnRef}>
               <div className={styles.mobile_picker_proxy_item} onClick={proxyItemHandle(0)}>&nbsp;</div>
