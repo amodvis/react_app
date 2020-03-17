@@ -11,12 +11,12 @@ const GenerateLink = (props) => {
 
   httpReg = new RegExp("^http");
 
-  if (httpReg.test(props.link)) {
-    link = (<Link {...props} to={props.href}>{props.children}</Link>)
+  if (httpReg.test(props.href)) {
+    link = (<a className={styles.link} href={props.href} target="__blank">{props.children}</a>)
   } else {
-    link = (<a {...props}>{props.children}</a>)
+    link = (<Link className={styles.link} to={props.href}>{props.children}</Link>)
   }
-
+  
   return link
 }
 
@@ -39,7 +39,7 @@ class Footer extends Component {
         let link = item.link;
 
         return (
-          <GenerateLink className={styles.link} href={link} >{text}</GenerateLink>
+          <GenerateLink href={link} >{text}</GenerateLink>
         );
       })
   }
