@@ -133,7 +133,39 @@
                             "module_name": "Footer",
                             "page_name": "index",
                             "position": 1,
-                            "module_data": []
+                            "module_data": {
+                                "line": [{
+                                    "text": "关于我们",
+                                    "btn_list": [{
+                                        "text": "首页",
+                                        "link": "/index"
+                                    }, {
+                                        "text": "私权政策",
+                                        "link": "#this"
+                                    }, {
+                                        "text": "加入我们",
+                                        "link": "#this"
+                                    }]
+                                }, {
+                                    "text": "使用帮助",
+                                    "btn_list": [{
+                                        "text": "联系我们",
+                                        "link": "/web_im"
+                                    }, {
+                                        "text": "使用文档",
+                                        "link": "/document/index"
+                                    }, {
+                                        "text": null,
+                                        "link": null
+                                    }]
+                                }, {
+                                    "text": "使用答疑群",
+                                    "pic": "http://106.54.93.177:9091/amodvis/static/image/1d/2e/08/1d2e08c466ab6016bd946fe4ff3d3ec4.png"
+                                }],
+                                "text1": "AMODVIS © 2020 版权所有",
+                                "text2": "email 185441127@qq.com",
+                                "text3": null
+                            }
                         }
                     ]
                 }
